@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <link rel="stylesheet" type="text/css" href="css/all.css">
+    <title>camara</title>
+</head>
+
+<body>
+    
+    <form method="post" id="form-postear">
+        <input type="text" name="informacion">
+        <button type="button" id="foto">camara</button>
+        <input type="hidden" name="image">
+        <img id="foto-img" src="" style="width: 100%; height: 400px">
+
+        <button type="submit">Postear</button>        
+    </form>
+    
+    <script type="text/javascript" src="cordova.js"></script>
+
+    <script type="text/javascript">
+        document.addEventListener('deviceready', init, false);
+
+        function init() {
+            console.log(navigator.camera); 
+            document.getElementById('foto').addEventListener('click',tomarFoto,false)
+            document.getElementById('form-postear').addEventListener('submit',postear,false)
+        }
+
+        function tomarFoto(){
+            navigator.camera.getPicture(cameraSuccess, cameraError);
+        }
+
+        function cameraSuccess(imageData) {
+            console.log(imageData)
+            document.getElementById('foto-img').src = imageData
+        }
+
+        function cameraError(message) {
+            console.error(message)
+        }
+
+        function postear(event) {
+            event.preventDefault()
+
+            var data = new FormData();
+            data.append('informacion', document.getElementById('informacion').value);
+            data.append('foto-img', document.getElementById('foto-img').src);
+            
+            alert(document.getElementById('foto-img').src);
+            // fetch()
+        }
+    </script>
+    
+</body>
+
+</html>
